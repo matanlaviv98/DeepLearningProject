@@ -50,9 +50,13 @@ base_model.trainable = False #freeze all, add fine tuning later
 
 
 
+
 rescale = tf.keras.layers.experimental.preprocessing.Rescaling(1./255)
 global_average_layer = tf.keras.layers.GlobalAveragePooling2D()
+
+l2 = tf.keras.layers.Dense(1000, activation = 'relu')
 prediction_layer = tf.keras.layers.Dense(1)
+
 
 inputs = tf.keras.Input(shape=(160, 160, 3))
 
@@ -61,6 +65,7 @@ x = data_augmentation(x)
 
 x = base_model(x, training=False)
 x = global_average_layer(x)
+x = l2(x)
 x = tf.keras.layers.Dropout(0.2)(x)
 outputs = prediction_layer(x)
 model = tf.keras.Model(inputs, outputs)
@@ -107,6 +112,3 @@ plt.ylim([0,1.0])
 plt.title('Training and Validation Loss')
 plt.xlabel('epoch')
 plt.show()
-
-
-
