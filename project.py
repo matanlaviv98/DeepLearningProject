@@ -39,6 +39,10 @@ val_dataset = image_dataset_from_directory(val_dir,
 class_names = train_dataset.class_names
 
 
+#train_dataset = tf.keras.applications.resnet.preprocess_input(train_dataset)
+#test_dataset = tf.keras.applications.resnet.preprocess_input(test_dataset)
+#val_dataset = tf.keras.applications.resnet.preprocess_input(val_dataset)
+
 data_augmentation = tf.keras.Sequential([
   tf.keras.layers.experimental.preprocessing.RandomFlip('horizontal'),
   tf.keras.layers.experimental.preprocessing.RandomRotation(0.2),
@@ -48,25 +52,29 @@ img_shape = (160,160,3)
 base_model = tf.keras.applications.ResNet50(input_shape = img_shape, include_top = False)
 base_model.trainable = False #freeze all, add fine tuning later
 
-
+for layer in base_model.layers:
+    if isinstance(layer, tf.keras.layers.BatchNormalization):
+        layer.trainable = True
+    else:
+        layer.trainable = False
 
 
 rescale = tf.keras.layers.experimental.preprocessing.Rescaling(1./255)
 global_average_layer = tf.keras.layers.GlobalAveragePooling2D()
 
-l2 = tf.keras.layers.Dense(1000, activation = 'relu')
+l2 = tf.keras.layers.Dense(256, activation = 'relu')
 prediction_layer = tf.keras.layers.Dense(1)
 
 
 inputs = tf.keras.Input(shape=(160, 160, 3))
-
-x= rescale(inputs)
+x=rescale(inputs)
 x = data_augmentation(x)
 
 x = base_model(x, training=False)
 x = global_average_layer(x)
+x = tf.keras.layers.Dropout(0.25)(x)
+#x= tf.keras.layers.BatchNormalization(x)
 x = l2(x)
-x = tf.keras.layers.Dropout(0.2)(x)
 outputs = prediction_layer(x)
 model = tf.keras.Model(inputs, outputs)
 
