@@ -2,20 +2,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import tensorflow as tf
-from tensorflow import keras
-from keras.models import Sequential
-from keras.layers import Dense,Conv2D,MaxPool2D,Dropout,Flatten, MaxPooling2D, Input, GlobalAveragePooling2D
-from keras.optimizers import RMSprop,Adam
-from tensorflow.keras.callbacks import EarlyStopping
-from keras.applications.resnet50 import ResNet50
-from keras.preprocessing import image
-from keras.preprocessing.image import ImageDataGenerator, load_img
+
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 
 
-test_dir = r'chest_xray\test'
+
+
+
 train_dir = r'chest_xray\train'
-val_dir = r'chest_xray\val'
+validation_dir = r'chest_xray\val'
 
 BATCH_SIZE = 32
 IMG_SIZE = (160, 160)
@@ -25,56 +20,49 @@ train_dataset = image_dataset_from_directory(train_dir,
                                              batch_size=BATCH_SIZE,
                                              image_size=IMG_SIZE)
 
-test_dataset = image_dataset_from_directory(test_dir,
-                                             shuffle=True,
-                                             batch_size=BATCH_SIZE,
-                                             image_size=IMG_SIZE)
 
-val_dataset = image_dataset_from_directory(val_dir,
-                                             shuffle=True,
-                                             batch_size=BATCH_SIZE,
-                                             image_size=IMG_SIZE)
-
+validation_dataset = image_dataset_from_directory(validation_dir,
+                                                  shuffle=True,
+                                                  batch_size=BATCH_SIZE,
+                                                  image_size=IMG_SIZE)
 
 class_names = train_dataset.class_names
 
 
-#train_dataset = tf.keras.applications.resnet.preprocess_input(train_dataset)
-#test_dataset = tf.keras.applications.resnet.preprocess_input(test_dataset)
-#val_dataset = tf.keras.applications.resnet.preprocess_input(val_dataset)
+    
+val_batches = tf.data.experimental.cardinality(validation_dataset)
+test_dataset = validation_dataset.take(val_batches // 5)
+validation_dataset = validation_dataset.skip(val_batches // 5)
+
+AUTOTUNE = tf.data.experimental.AUTOTUNE
+
+train_dataset = train_dataset.prefetch(buffer_size=AUTOTUNE)
+validation_dataset = validation_dataset.prefetch(buffer_size=AUTOTUNE)
+test_dataset = test_dataset.prefetch(buffer_size=AUTOTUNE)
 
 data_augmentation = tf.keras.Sequential([
   tf.keras.layers.experimental.preprocessing.RandomFlip('horizontal'),
   tf.keras.layers.experimental.preprocessing.RandomRotation(0.2),
 ])
 
-img_shape = (160,160,3)
-base_model = tf.keras.applications.ResNet50(input_shape = img_shape, include_top = False)
-base_model.trainable = False #freeze all, add fine tuning later
+preprocess_input = tf.keras.applications.mobilenet_v2.preprocess_input
 
-for layer in base_model.layers:
-    if isinstance(layer, tf.keras.layers.BatchNormalization):
-        layer.trainable = True
-    else:
-        layer.trainable = False
+IMG_SHAPE = IMG_SIZE + (3,)
+base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
+                                               include_top=False,
+                                               weights='imagenet')
 
-
-rescale = tf.keras.layers.experimental.preprocessing.Rescaling(1./255)
+base_model.trainable = False
 global_average_layer = tf.keras.layers.GlobalAveragePooling2D()
-
-l2 = tf.keras.layers.Dense(256, activation = 'relu')
 prediction_layer = tf.keras.layers.Dense(1)
 
 
 inputs = tf.keras.Input(shape=(160, 160, 3))
-x=rescale(inputs)
-x = data_augmentation(x)
-
+x = data_augmentation(inputs)
+x = preprocess_input(x)
 x = base_model(x, training=False)
 x = global_average_layer(x)
-x = tf.keras.layers.Dropout(0.25)(x)
-#x= tf.keras.layers.BatchNormalization(x)
-x = l2(x)
+x = tf.keras.layers.Dropout(0.2)(x)
 outputs = prediction_layer(x)
 model = tf.keras.Model(inputs, outputs)
 
@@ -83,18 +71,14 @@ model.compile(optimizer=tf.keras.optimizers.Adam(lr=base_learning_rate),
               loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
-#base_model.summary()
-
 initial_epochs = 30
 
-loss0, accuracy0 = model.evaluate(val_dataset)
-
-print("initial loss: {:.2f}".format(loss0))
-print("initial accuracy: {:.2f}".format(accuracy0))
+loss0, accuracy0 = model.evaluate(validation_dataset)
 
 history = model.fit(train_dataset,
                     epochs=initial_epochs,
-                    validation_data=val_dataset)
+                    validation_data=validation_dataset)
+
 
 acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
