@@ -8,10 +8,7 @@ from keras.layers import Dense,Conv2D,MaxPool2D,Dropout,Flatten, MaxPooling2D, I
 from keras.optimizers import RMSprop,Adam
 from tensorflow.keras.callbacks import EarlyStopping
 from keras.applications.resnet50 import ResNet50
-from keras.preprocessing import image
-from keras.preprocessing.image import ImageDataGenerator, load_img
 from tensorflow.keras.preprocessing import image_dataset_from_directory
-from tensorflow.keras.callbacks import EarlyStopping
 
 test_dir = r'chest_xray\test'
 train_dir = r'chest_xray\train'
@@ -47,8 +44,8 @@ data_augmentation = tf.keras.Sequential([
   tf.keras.layers.experimental.preprocessing.RandomRotation(0.2),
 ])
 
-img_shape = (160,160,3)
-base_model = tf.keras.applications.ResNet50(weights='imagenet',input_shape = img_shape, include_top = False)
+img_shape = IMG_SIZE + (3,)
+base_model = tf.keras.applications.ResNet50(weights='imagenet',pooling = 'average',input_shape = img_shape, include_top = False)
 #base_model.trainable = False #freeze all, add fine tuning later
 
 for layer in base_model.layers:
@@ -65,10 +62,9 @@ l2 = tf.keras.layers.Dense(256, activation = 'relu')
 prediction_layer = tf.keras.layers.Dense(1)
 
 
-inputs = tf.keras.Input(shape=(160, 160, 3))
+inputs = tf.keras.Input(shape=img_shape)
 x=preprocess(inputs)
 x = data_augmentation(x)
-
 x = base_model(x)
 x = global_average_layer(x)
 x = tf.keras.layers.Dropout(0.25)(x)
@@ -78,14 +74,14 @@ outputs = prediction_layer(x)
 model = tf.keras.Model(inputs, outputs)
 
 base_learning_rate = 0.0001
-model.compile(optimizer=tf.keras.optimizers.Adam(lr=base_learning_rate),
+model.compile(optimizer=tf.keras.optimizers.RMSprop(lr=base_learning_rate),
               loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
 #base_model.summary()
 
-initial_epochs = 30
-es = EarlyStopping(monitor='val_accuracy' , mode='max', patience = 5, restore_best_weights=True)
+initial_epochs = 100
+es = EarlyStopping(monitor='val_loss' , mode='min', patience = 8, restore_best_weights=True)
 loss0, accuracy0 = model.evaluate(val_dataset)
 
 print("initial loss: {:.2f}".format(loss0))

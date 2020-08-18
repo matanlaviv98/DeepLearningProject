@@ -46,10 +46,10 @@ validation_dataset = image_dataset_from_directory(validation_dir,
 # =============================================================================
 
 input_shape = (100,100,3)
-base_model = ResNet50(weights='imagenet',input_shape = input_shape, include_top = False,
+base_model = tf.keras.applications.ResNet50(weights='imagenet',input_shape = input_shape, include_top = False,
                       pooling = 'average')
 base_model.trainable= False
-
+preprocess = tf.keras.applications.resnet.preprocess_input
 # =============================================================================
 # fine_tune_at = 100
 # for layer in base_model.layers[:fine_tune_at]:
@@ -57,8 +57,8 @@ base_model.trainable= False
 # =============================================================================
 
 inputs = Input(shape=(100,100, 3))
-x = preprocess_input(inputs)
-x = base_model.output(x)
+x = preprocess(inputs)
+x = base_model(x)
 x = GlobalAveragePooling2D()(x)
 x = Dense(1000, activation = 'relu')(x)
 x = Dense(1, activation = 'sigmoid')(x)
@@ -73,7 +73,7 @@ model.compile(Adam(),
               metrics=['accuracy'])
 
 
-es = EarlyStopping(monitor='accuracy' , mode='max', patience = 1)
+es = EarlyStopping(monitor='accuracy' , mode='max', patience = 5, restore_best_weights=True)
 
 
 loss0, accuracy0 = model.evaluate(validation_dataset)
