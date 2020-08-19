@@ -1,13 +1,6 @@
 import matplotlib.pyplot as plt
-import numpy as np
-import os
 import tensorflow as tf
-from tensorflow import keras
-from keras.models import Sequential
-from keras.layers import Dense,Conv2D,MaxPool2D,Dropout,Flatten, MaxPooling2D, Input, GlobalAveragePooling2D
-from keras.optimizers import RMSprop,Adam
 from tensorflow.keras.callbacks import EarlyStopping
-from keras.applications.resnet50 import ResNet50
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 
 test_dir = r'chest_xray\test'
@@ -81,7 +74,7 @@ model.compile(optimizer=tf.keras.optimizers.RMSprop(lr=base_learning_rate),
 #base_model.summary()
 
 initial_epochs = 100
-es = EarlyStopping(monitor='val_loss' , mode='min', patience = 8, restore_best_weights=True)
+es = EarlyStopping(monitor='val_loss' , mode='min', patience = 4, restore_best_weights=True)
 loss0, accuracy0 = model.evaluate(val_dataset)
 
 print("initial loss: {:.2f}".format(loss0))
