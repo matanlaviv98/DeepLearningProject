@@ -2,10 +2,20 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.preprocessing import image_dataset_from_directory
+from google.colab import drive
 
-test_dir = r'chest_xray\test'
-train_dir = r'chest_xray\train'
-val_dir = r'chest_xray\val'
+
+in_colab = True
+if(in_colab):
+  drive.mount('/content/gdrive', force_remount=True)
+  root_dir = "/content/gdrive/My Drive/DL_DATA/chest_xray"
+  test_dir = root_dir + "/test"
+  train_dir = root_dir + "/train"
+  val_dir = root_dir + "/val"
+else:
+  test_dir = r'chest_xray\test'
+  train_dir = r'chest_xray\train'
+  val_dir = r'chest_xray\val' 
 
 BATCH_SIZE = 32
 IMG_SIZE = (160, 160)
@@ -52,7 +62,7 @@ for layer in base_model.layers:
 #rescale = tf.keras.layers.experimental.preprocessing.Rescaling(1./255)
 global_average_layer = tf.keras.layers.GlobalAveragePooling2D()
 
-dense_layer = tf.keras.layers.Dense(512, activation = 'relu')
+dense_layer = tf.keras.layers.Dense(1024, activation = 'relu')
 prediction_layer = tf.keras.layers.Dense(1)
 
 
@@ -72,7 +82,7 @@ model.compile(optimizer=tf.keras.optimizers.RMSprop(lr=base_learning_rate),
 
 model.summary()
 
-epochs = 20
+epochs = 14
 
 loss0, accuracy0 = model.evaluate(val_dataset)
 
@@ -124,7 +134,7 @@ model.compile(optimizer=tf.keras.optimizers.RMSprop(lr=base_learning_rate),
 
 model.summary()
 
-epochs = 20
+epochs = 14
 
 loss0, accuracy0 = model.evaluate(val_dataset)
 
