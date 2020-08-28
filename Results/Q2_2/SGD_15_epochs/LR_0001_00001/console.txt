@@ -1,0 +1,143 @@
+
+
+Go to this URL in a browser: https://accounts.google.com/o/oauth2/auth?client_id=947318989803-6bn6qk8qdgf4n4g3pfee6491hc0brc4i.apps.googleusercontent.com&redirect_uri=urn%3aietf%3awg%3aoauth%3a2.0%3aoob&scope=email%20https%3a%2f%2fwww.googleapis.com%2fauth%2fdocs.test%20https%3a%2f%2fwww.googleapis.com%2fauth%2fdrive%20https%3a%2f%2fwww.googleapis.com%2fauth%2fdrive.photos.readonly%20https%3a%2f%2fwww.googleapis.com%2fauth%2fpeopleapi.readonly&response_type=code
+
+Enter your authorization code:
+··········
+Mounted at /content/gdrive
+Found 5216 files belonging to 2 classes.
+Found 624 files belonging to 2 classes.
+Found 16 files belonging to 2 classes.
+Downloading data from https://storage.googleapis.com/tensorflow/keras-applications/resnet/resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5
+94773248/94765736 [==============================] - 1s 0us/step
+Model: "functional_1"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+input_2 (InputLayer)         [(None, 160, 160, 3)]     0         
+_________________________________________________________________
+tf_op_layer_strided_slice (T [(None, 160, 160, 3)]     0         
+_________________________________________________________________
+tf_op_layer_BiasAdd (TensorF [(None, 160, 160, 3)]     0         
+_________________________________________________________________
+sequential (Sequential)      (None, 160, 160, 3)       0         
+_________________________________________________________________
+resnet50 (Functional)        (None, 5, 5, 2048)        23587712  
+_________________________________________________________________
+global_average_pooling2d (Gl (None, 2048)              0         
+_________________________________________________________________
+dense (Dense)                (None, 1024)              2098176   
+_________________________________________________________________
+dense_1 (Dense)              (None, 256)               262400    
+_________________________________________________________________
+dense_2 (Dense)              (None, 32)                8224      
+_________________________________________________________________
+dense_3 (Dense)              (None, 1)                 33        
+=================================================================
+Total params: 25,956,545
+Trainable params: 2,421,953
+Non-trainable params: 23,534,592
+_________________________________________________________________
+1/1 [==============================] - 0s 5ms/step - loss: 0.6929 - accuracy: 0.5000
+initial loss: 0.69
+initial accuracy: 0.50
+Epoch 1/15
+163/163 [==============================] - 1849s 11s/step - loss: 0.6863 - accuracy: 0.2876 - val_loss: 0.6194 - val_accuracy: 0.6875
+Epoch 2/15
+163/163 [==============================] - 54s 333ms/step - loss: 0.6227 - accuracy: 0.4227 - val_loss: 0.7275 - val_accuracy: 0.5625
+Epoch 3/15
+163/163 [==============================] - 54s 333ms/step - loss: 0.5945 - accuracy: 0.5750 - val_loss: 0.7354 - val_accuracy: 0.5000
+Epoch 4/15
+163/163 [==============================] - 55s 338ms/step - loss: 0.5778 - accuracy: 0.6576 - val_loss: 0.7769 - val_accuracy: 0.5625
+Epoch 5/15
+163/163 [==============================] - 56s 341ms/step - loss: 0.5624 - accuracy: 0.7218 - val_loss: 0.7570 - val_accuracy: 0.5625
+Epoch 6/15
+163/163 [==============================] - 55s 339ms/step - loss: 0.5500 - accuracy: 0.7444 - val_loss: 0.7630 - val_accuracy: 0.5000
+Epoch 7/15
+163/163 [==============================] - 54s 334ms/step - loss: 0.5428 - accuracy: 0.7573 - val_loss: 0.7620 - val_accuracy: 0.5000
+Epoch 8/15
+163/163 [==============================] - 55s 336ms/step - loss: 0.5290 - accuracy: 0.7768 - val_loss: 0.7625 - val_accuracy: 0.5000
+Epoch 9/15
+163/163 [==============================] - 55s 337ms/step - loss: 0.5210 - accuracy: 0.7799 - val_loss: 0.7582 - val_accuracy: 0.5000
+Epoch 10/15
+163/163 [==============================] - 54s 334ms/step - loss: 0.5120 - accuracy: 0.7916 - val_loss: 0.7513 - val_accuracy: 0.5000
+Epoch 11/15
+163/163 [==============================] - 55s 335ms/step - loss: 0.4998 - accuracy: 0.8067 - val_loss: 0.7442 - val_accuracy: 0.5625
+Epoch 12/15
+163/163 [==============================] - 55s 336ms/step - loss: 0.4928 - accuracy: 0.8138 - val_loss: 0.7353 - val_accuracy: 0.5625
+Epoch 13/15
+163/163 [==============================] - 55s 336ms/step - loss: 0.4849 - accuracy: 0.8158 - val_loss: 0.7302 - val_accuracy: 0.5625
+Epoch 14/15
+163/163 [==============================] - 55s 335ms/step - loss: 0.4750 - accuracy: 0.8319 - val_loss: 0.7227 - val_accuracy: 0.5625
+Epoch 15/15
+163/163 [==============================] - 55s 337ms/step - loss: 0.4645 - accuracy: 0.8413 - val_loss: 0.7109 - val_accuracy: 0.5625
+
+20/20 [==============================] - 131s 7s/step - loss: 0.6213 - accuracy: 0.6875
+[0.6212992668151855, 0.6875]
+Model: "functional_1"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+input_2 (InputLayer)         [(None, 160, 160, 3)]     0         
+_________________________________________________________________
+tf_op_layer_strided_slice (T [(None, 160, 160, 3)]     0         
+_________________________________________________________________
+tf_op_layer_BiasAdd (TensorF [(None, 160, 160, 3)]     0         
+_________________________________________________________________
+sequential (Sequential)      (None, 160, 160, 3)       0         
+_________________________________________________________________
+resnet50 (Functional)        (None, 5, 5, 2048)        23587712  
+_________________________________________________________________
+global_average_pooling2d (Gl (None, 2048)              0         
+_________________________________________________________________
+dense (Dense)                (None, 1024)              2098176   
+_________________________________________________________________
+dense_1 (Dense)              (None, 256)               262400    
+_________________________________________________________________
+dense_2 (Dense)              (None, 32)                8224      
+_________________________________________________________________
+dense_3 (Dense)              (None, 1)                 33        
+=================================================================
+Total params: 25,956,545
+Trainable params: 23,742,145
+Non-trainable params: 2,214,400
+_________________________________________________________________
+1/1 [==============================] - 0s 2ms/step - loss: 0.7109 - accuracy: 0.5625
+initial loss: 0.71
+initial accuracy: 0.56
+Epoch 1/15
+163/163 [==============================] - 59s 363ms/step - loss: 0.4585 - accuracy: 0.8407 - val_loss: 0.7092 - val_accuracy: 0.6250
+Epoch 2/15
+163/163 [==============================] - 59s 361ms/step - loss: 0.4556 - accuracy: 0.8495 - val_loss: 0.7042 - val_accuracy: 0.6250
+Epoch 3/15
+163/163 [==============================] - 59s 363ms/step - loss: 0.4529 - accuracy: 0.8518 - val_loss: 0.7078 - val_accuracy: 0.6250
+Epoch 4/15
+163/163 [==============================] - 59s 363ms/step - loss: 0.4563 - accuracy: 0.8438 - val_loss: 0.7006 - val_accuracy: 0.6875
+Epoch 5/15
+163/163 [==============================] - 59s 359ms/step - loss: 0.4518 - accuracy: 0.8512 - val_loss: 0.7073 - val_accuracy: 0.6875
+Epoch 6/15
+163/163 [==============================] - 59s 362ms/step - loss: 0.4520 - accuracy: 0.8505 - val_loss: 0.7025 - val_accuracy: 0.6875
+Epoch 7/15
+163/163 [==============================] - 59s 360ms/step - loss: 0.4494 - accuracy: 0.8514 - val_loss: 0.6971 - val_accuracy: 0.6875
+Epoch 8/15
+163/163 [==============================] - 59s 359ms/step - loss: 0.4474 - accuracy: 0.8535 - val_loss: 0.6940 - val_accuracy: 0.6875
+Epoch 9/15
+163/163 [==============================] - 59s 363ms/step - loss: 0.4460 - accuracy: 0.8564 - val_loss: 0.6944 - val_accuracy: 0.6875
+Epoch 10/15
+163/163 [==============================] - 59s 363ms/step - loss: 0.4424 - accuracy: 0.8583 - val_loss: 0.6958 - val_accuracy: 0.6875
+Epoch 11/15
+163/163 [==============================] - 59s 362ms/step - loss: 0.4412 - accuracy: 0.8593 - val_loss: 0.6940 - val_accuracy: 0.6875
+Epoch 12/15
+163/163 [==============================] - 59s 360ms/step - loss: 0.4373 - accuracy: 0.8620 - val_loss: 0.6893 - val_accuracy: 0.6875
+Epoch 13/15
+163/163 [==============================] - 59s 361ms/step - loss: 0.4371 - accuracy: 0.8669 - val_loss: 0.6912 - val_accuracy: 0.6875
+Epoch 14/15
+163/163 [==============================] - 59s 361ms/step - loss: 0.4348 - accuracy: 0.8595 - val_loss: 0.6904 - val_accuracy: 0.6875
+Epoch 15/15
+163/163 [==============================] - 59s 360ms/step - loss: 0.4356 - accuracy: 0.8622 - val_loss: 0.6919 - val_accuracy: 0.6875
+
+20/20 [==============================] - 3s 153ms/step - loss: 0.5966 - accuracy: 0.7324
+[0.596603512763977, 0.7323718070983887]
+0.0001
+<tensorflow.python.keras.optimizer_v2.gradient_descent.SGD object at 0x7f17156f66a0>
+
