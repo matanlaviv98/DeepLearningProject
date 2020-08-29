@@ -17590,3 +17590,6 @@ chest_xray/val/PNEUMONIA/person1950_bacteria_4881.jpeg
 chest_xray/val/PNEUMONIA/person1951_bacteria_4882.jpeg
 chest_xray/val/PNEUMONIA/person1952_bacteria_4883.jpeg
 chest_xray/val/PNEUMONIA/person1954_bacteria_4886.jpeg
+Resnet_Q1.py
+Resnet_Q2_1_b.py
+Results/Q2_1_b model/variables/variables.data-00000-of-00001

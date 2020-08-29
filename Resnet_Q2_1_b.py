@@ -2,20 +2,22 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.preprocessing import image_dataset_from_directory
-#from google.colab import drive
-
-
-in_colab = False
-if(in_colab):
-  drive.mount('/content/gdrive', force_remount=True)
-  root_dir = "/content/gdrive/My Drive/DL_DATA/chest_xray"
-  test_dir = root_dir + "/test"
-  train_dir = root_dir + "/train"
-  val_dir = root_dir + "/val"
-else:
-  test_dir = r'chest_xray\test'
-  train_dir = r'chest_xray\train'
-  val_dir = r'chest_xray\val' 
+# =============================================================================
+# #from google.colab import drive
+# 
+# 
+# in_colab = False
+# if(in_colab):
+#   drive.mount('/content/gdrive', force_remount=True)
+#   root_dir = "/content/gdrive/My Drive/DL_DATA/chest_xray"
+#   test_dir = root_dir + "/test"
+#   train_dir = root_dir + "/train"
+#   val_dir = root_dir + "/val"
+# else:
+# =============================================================================
+test_dir = r'chest_xray\test'
+train_dir = r'chest_xray\train'
+val_dir = r'chest_xray\val' 
 
 BATCH_SIZE = 32
 IMG_SIZE = (160, 160)

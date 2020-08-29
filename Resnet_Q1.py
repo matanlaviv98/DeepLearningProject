@@ -2,20 +2,25 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.preprocessing import image_dataset_from_directory
-from google.colab import drive
+#from google.colab import drive
 
 
-in_colab = True
-if(in_colab):
-  drive.mount('/content/gdrive', force_remount=True)
-  root_dir = "/content/gdrive/My Drive/DL_DATA/chest_xray"
-  test_dir = root_dir + "/test"
-  train_dir = root_dir + "/train"
-  val_dir = root_dir + "/val"
-else:
-  test_dir = r'chest_xray\test'
-  train_dir = r'chest_xray\train'
-  val_dir = r'chest_xray\val' 
+# =============================================================================
+# #from google.colab import drive
+# 
+# 
+# in_colab = False
+# if(in_colab):
+#   drive.mount('/content/gdrive', force_remount=True)
+#   root_dir = "/content/gdrive/My Drive/DL_DATA/chest_xray"
+#   test_dir = root_dir + "/test"
+#   train_dir = root_dir + "/train"
+#   val_dir = root_dir + "/val"
+# else:
+# =============================================================================
+test_dir = r'chest_xray\test'
+train_dir = r'chest_xray\train'
+val_dir = r'chest_xray\val' 
 
 BATCH_SIZE = 32
 IMG_SIZE = (160, 160)
@@ -71,19 +76,18 @@ x=preprocess(inputs)
 x = data_augmentation(x)
 x = base_model(x)
 x = global_average_layer(x)
-x = tf.keras.layers.Dropout(0.25)(x)
 x = dense_layer(x)
 outputs = prediction_layer(x)
 model = tf.keras.Model(inputs, outputs)
 
-base_learning_rate = 0.0001
-model.compile(optimizer=tf.keras.optimizers.RMSprop(lr=base_learning_rate),
+base_learning_rate = 0.0005
+model.compile(optimizer=tf.keras.optimizers.SGD(lr=base_learning_rate,nesterov=True,momentum=0.7),
               loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
 model.summary()
 
-epochs = 14
+epochs = 15
 
 loss0, accuracy0 = model.evaluate(val_dataset)
 
@@ -128,14 +132,14 @@ print(score)
 for idx in range(90):
     base_model.layers[-idx].trainable=True
 
-base_learning_rate = 0.00001
-model.compile(optimizer=tf.keras.optimizers.RMSprop(lr=base_learning_rate),
+base_learning_rate = 0.00005
+model.compile(optimizer=tf.keras.optimizers.SGD(lr=base_learning_rate,nesterov=True,momentum=0.7),
               loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
 model.summary()
 
-epochs = 14
+#epochs = 15
 
 loss0, accuracy0 = model.evaluate(val_dataset)
 
