@@ -81,13 +81,13 @@ outputs = prediction_layer(x)
 model = tf.keras.Model(inputs, outputs)
 
 base_learning_rate = 0.0005
-model.compile(optimizer=tf.keras.optimizers.SGD(lr=base_learning_rate,nesterov=True,momentum=0.7),
+model.compile(optimizer=tf.keras.optimizers.SGD(lr=base_learning_rate,nesterov=True,momentum=0.3),
               loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
 model.summary()
 
-epochs = 15
+epochs = 5
 
 loss0, accuracy0 = model.evaluate(val_dataset)
 
@@ -133,7 +133,7 @@ for idx in range(90):
     base_model.layers[-idx].trainable=True
 
 base_learning_rate = 0.00005
-model.compile(optimizer=tf.keras.optimizers.SGD(lr=base_learning_rate,nesterov=True,momentum=0.7),
+model.compile(optimizer=tf.keras.optimizers.SGD(lr=base_learning_rate,nesterov=True,momentum=0.3),
               loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
