@@ -129,7 +129,7 @@ score = model.evaluate(test_dataset)
 print(score)
 
 
-for idx in range(90):
+for idx in range(89):
     base_model.layers[-idx].trainable=True
 
 base_learning_rate = 0.00005
