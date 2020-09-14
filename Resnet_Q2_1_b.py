@@ -65,8 +65,8 @@ for layer in base_model.layers:
 global_average_layer = tf.keras.layers.GlobalAveragePooling2D()
 
 dense_layer1 = tf.keras.layers.Dense(1024, activation = 'relu')
-dense_layer2 = tf.keras.layers.Dense(256, activation = 'relu')
-dense_layer3 = tf.keras.layers.Dense(32, activation = 'relu')
+dense_layer2 = tf.keras.layers.Dense(512, activation = 'relu')
+dense_layer3 = tf.keras.layers.Dense(256, activation = 'relu')
 prediction_layer = tf.keras.layers.Dense(1)
 
 
