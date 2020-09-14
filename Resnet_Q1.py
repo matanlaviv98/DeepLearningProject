@@ -67,7 +67,9 @@ for layer in base_model.layers:
 #rescale = tf.keras.layers.experimental.preprocessing.Rescaling(1./255)
 global_average_layer = tf.keras.layers.GlobalAveragePooling2D()
 
-dense_layer = tf.keras.layers.Dense(1024, activation = 'relu')
+dense_layer1 = tf.keras.layers.Dense(1024, activation = 'relu')
+dense_layer2 = tf.keras.layers.Dense(512, activation = 'relu')
+dense_layer3 = tf.keras.layers.Dense(256, activation = 'relu')
 prediction_layer = tf.keras.layers.Dense(1)
 
 
@@ -76,18 +78,21 @@ x=preprocess(inputs)
 x = data_augmentation(x)
 x = base_model(x)
 x = global_average_layer(x)
-x = dense_layer(x)
+x = tf.keras.layers.Dropout(0.4)(x)
+x = dense_layer1(x)
+x = dense_layer2(x)
+x = dense_layer3(x)
 outputs = prediction_layer(x)
 model = tf.keras.Model(inputs, outputs)
 
 base_learning_rate = 0.0005
-model.compile(optimizer=tf.keras.optimizers.SGD(lr=base_learning_rate,nesterov=True,momentum=0.7),
+model.compile(optimizer=tf.keras.optimizers.SGD(lr=base_learning_rate,nesterov=True,momentum=0.3),
               loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
 model.summary()
 
-epochs = 15
+epochs = 35
 
 loss0, accuracy0 = model.evaluate(val_dataset)
 
@@ -129,17 +134,17 @@ score = model.evaluate(test_dataset)
 print(score)
 
 
-for idx in range(90):
+for idx in range(89):
     base_model.layers[-idx].trainable=True
 
 base_learning_rate = 0.00005
-model.compile(optimizer=tf.keras.optimizers.SGD(lr=base_learning_rate,nesterov=True,momentum=0.7),
+model.compile(optimizer=tf.keras.optimizers.SGD(lr=base_learning_rate,nesterov=True,momentum=0.3),
               loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
 model.summary()
 
-#epochs = 15
+epochs = 35
 
 loss0, accuracy0 = model.evaluate(val_dataset)
 
