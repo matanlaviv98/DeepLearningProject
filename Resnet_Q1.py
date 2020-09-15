@@ -68,8 +68,6 @@ for layer in base_model.layers:
 global_average_layer = tf.keras.layers.GlobalAveragePooling2D()
 
 dense_layer1 = tf.keras.layers.Dense(1024, activation = 'relu')
-dense_layer2 = tf.keras.layers.Dense(512, activation = 'relu')
-dense_layer3 = tf.keras.layers.Dense(256, activation = 'relu')
 prediction_layer = tf.keras.layers.Dense(1)
 
 
@@ -92,7 +90,7 @@ model.compile(optimizer=tf.keras.optimizers.SGD(lr=base_learning_rate,nesterov=T
 
 model.summary()
 
-epochs = 35
+epochs = 14
 
 loss0, accuracy0 = model.evaluate(val_dataset)
 
